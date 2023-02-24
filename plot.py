@@ -4,7 +4,7 @@ from pysid.io.csv_data import gen_data
 import matplotlib.pyplot as plt
 
 def plot(model,u,y):
-    # print(model.A,"\n",model.A[0],"\n",model.A[0,0],"\n",type(model.A))
+    # TODO : change lw based on number of samples
     y_m = gen_data(model.A[0,0], model.B[0,0], u.shape[0], u, 0)[:,1]
     plt.title("Saída Real / Saída Estimada", fontsize=20)
     plt.plot(range(len(u)),u,'.-',label='Entrada',lw=1.5)
