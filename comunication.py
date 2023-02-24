@@ -1,10 +1,10 @@
 """
-Module for the functions that do the prints and make the connection with the user
+Module for the functions that do the prints and make the comunication with the user
 """
 import tkinter as tk   
 from tkinter.filedialog import askopenfilename
 from pysid.io.csv_data import *
-from pysid.interface import solve, plot
+from . import solve, plot
 
 def initial_menu():
     print(f'Pysid(v0.1) - Identificação de sistemas')
@@ -70,7 +70,7 @@ def change_config(cmd,config):
     elif cmd == 0:
         pass
     print("\n *** Configurações salvas *** \n")
-    
+
     return config
 def sep_data(nu,ny,data):
     u = data[:,:nu]
@@ -97,12 +97,11 @@ def main():
             for i in range(4):
                 config[i+1] = config[i+1]
             config = config[:-1]
-            
+
     except:
         config = [",",1,4,100,0.05]
     filename = None
     repeat_file = False
-    # print(config)
     while(cmd != 0):
         cmd = initial_menu()
         if cmd <= 3 and cmd != 0:
@@ -124,19 +123,19 @@ def main():
             if file:
                 na, nb, nc, nk = get_order_polys(cmd)
                 if   cmd == 1:
-                    m = solve.mq_interface(na,nb,nk,u,y,prec=int(config[2]))
+                    m = solve.ls_interface(na,nb,nk,u,y,prec=int(config[2]))
                     if nu == 1 and ny == 1:
                         p = input("Deseja plotar os dados?[Y/N]\n>> ")
                         if p == 'y' or p == 'Y':
                             plot.plot(m,u,y)
                 elif cmd == 2:
-                    m = solve.mqe_interface(na,nb,nc,nk,u,y,float(config[4])/100,int(config[3]),int(config[2]))
+                    m = solve.els_interface(na,nb,nc,nk,u,y,float(config[4])/100,int(config[3]),int(config[2]))
                     if nu == 1 and ny == 1:
                         p = input("Deseja plotar os dados?[Y/N]\n>> ")
                         if p == 'y' or p == 'Y':
                             plot.plot(m,u,y)
                 elif cmd == 3:
-                    solve.mqr_interface(na,nb,nk,u,y,int(config[2]))
+                    solve.rls_interface(na,nb,nk,u,y,int(config[2]))
 
                 print("\n-------------------\n")
                 repeat = input("Deseja usar os mesmos dados?[Y/N]\n>> ")
@@ -153,4 +152,4 @@ def main():
                    f.write(str(item)+"-")
            # print(config)
 
-main()
+if __name__ == __main__: main()
