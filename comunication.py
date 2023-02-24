@@ -7,6 +7,14 @@ from pysid.io.csv_data import *
 from . import solve, plot
 
 def initial_menu():
+    """
+    prints the first option menu and returns a valid command
+    Returns
+    -------
+    TYPE int
+        Value representing the chosen option
+
+    """
     print(f'Pysid(v0.1) - Identificação de sistemas')
     print("Escolha uma opção:")
     print("1 - Solução de minímos quadrados (MQ)")
@@ -23,6 +31,14 @@ def initial_menu():
         return initial_menu()
 
 def print_infos():
+    """
+    prints informations about the use of the interface
+
+    Returns
+    -------
+    None.
+
+    """
     print("- O seprador default é a vírgula.")
     print("- No .csv a ordem das colunas deve ser entradas(u), saídas(y)")
     print("- As ordens dos polinomios devem ser inteiros")
@@ -32,6 +48,20 @@ def print_infos():
 
 
 def print_config_menu(config):
+    """
+    Prints the current configuration and the options to change it
+    Returns the corresponding value to the configuration that will be changed
+    Parameters
+    ----------
+    config : list
+        list with the current configs
+
+    Returns
+    -------
+    TYPE int
+        value that represents the config that will be changed
+
+    """
     # numero de alg sig
     # numero de treshold 
     # numero max de repetições
@@ -52,6 +82,22 @@ def print_config_menu(config):
         return print_config_menu()
 
 def change_config(cmd,config):
+    """
+    changes an element in the config list based on cmd
+
+    Parameters
+    ----------
+    cmd : int
+        config that will be changed.
+    config : list
+        list of configs.
+
+    Returns
+    -------
+    config : list
+        the config list already changed.
+
+    """
     if cmd == 1:
         print("Informe o novo separador:")
         config[cmd-1] = input("\n>> ")
@@ -73,11 +119,52 @@ def change_config(cmd,config):
 
     return config
 def sep_data(nu,ny,data):
+    """
+    separates the data array in two arrays, corresponding to input and output
+
+    Parameters
+    ----------
+    nu : int
+        number of inputs.
+    ny : int
+        number of outputs.
+    data : numpy array
+        inputs and outputs.
+
+    Returns
+    -------
+    u : numpy array
+        array with input data.
+    y : numpy array
+        array with output data.
+
+    """
     u = data[:,:nu]
     y = data[:,nu:ny+nu]
     return u,y
 
 def get_order_polys(cmd):
+    """
+    gets from the user the the order of the polynomial based on the
+    chosen method
+
+    Parameters
+    ----------
+    cmd : int 
+        cmd based on chosen method (ls, els or rls)
+
+    Returns
+    -------
+    na : int
+        order of polynomial A
+    nb : int
+        order of polynomial D
+    nc : int
+        order of polynomial C
+    nk : int
+        order of delay
+
+    """
     na = int(input("Ordem de A(q):\n>> "))
     nb = int(input("Ordem de B(q):\n>> "))
     if(cmd == 2):

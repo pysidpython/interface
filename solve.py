@@ -8,7 +8,30 @@ from numpy.linalg import inv
 from numpy import matmul,concatenate,ones,power
 
 def ls_interface(na,nb,nk,u,y,prec=3):
-    
+    """
+    identifies a ARX model with least squares
+
+    Parameters
+    ----------
+    na : int
+        order of polynomial A
+    nb : int
+        order of polynomial D
+    nk : int
+        order of delay
+    u : numpy array
+        array of inputs.
+    y : numpy array
+        array of outputs.
+    prec : int, optional
+        number of significant algharisms for paramters. The default is 3.
+
+    Returns
+    -------
+    m : pysid polymodel
+        identified model
+
+    """
     ny = y.shape[1]
     nu = u.shape[1]
     
@@ -24,7 +47,39 @@ def ls_interface(na,nb,nk,u,y,prec=3):
     return m
 
 
-def els_interface(na,nb,nc,nk,u,y,th,n_max,prec):
+def els_interface(na,nb,nc,nk,u,y,th=0.005,n_max=500,prec=3):
+    """
+    identifies a model with extended least squares
+
+    Parameters
+    ----------
+    Parameters
+    ----------
+    na : int
+        order of polynomial A
+    nb : int
+        order of polynomial D
+    nc : int
+        order of polynomial C
+    nk : int
+        order of delay
+    u : numpy array
+        array of inputs.
+    y : numpy array
+        array of outputs.
+    th : float, optional
+        treshold for minimum diference in between iterations.The default is 0.005
+    n_max : int, optional
+        maximum number of iterations. The default is 500
+    prec : int, optional
+        number of significant algharisms for paramters. The default is 3.
+
+    Returns
+    -------
+    m : pysid polymodel
+        identified model
+
+    """
     m = els(na, nb, nc, nk, u, y, th, n_max)
     print_model(m,prec=prec)
    
@@ -33,7 +88,30 @@ def els_interface(na,nb,nc,nk,u,y,th,n_max,prec):
     # print("Infos de regressão(n de amostras, sis mimo..)\n")
     return m
 
-def els_interface(na,nb,nk,u,y,prec):
+def els_interface(na,nb,nk,u,y,prec=3):
+    """
+    identifies a model with recursive least squares
+    
+    Parameters
+    ----------
+    na : int
+        order of polynomial A
+    nb : int
+        order of polynomial D
+    nk : int
+        order of delay
+    u : numpy array
+        array of inputs.
+    y : numpy array
+        array of outputs.
+    prec : int, optional
+        number of significant algharisms for paramters. The default is 3.
+
+    Returns
+    -------
+    m : pysid polymodel
+        identified model
+    """
     m = rls(na,nb,nk,u,y)
     print_model(m,prec=prec)
     # TODO : print(f'Cost function per sample: ...')
